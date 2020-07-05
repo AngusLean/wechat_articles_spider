@@ -49,12 +49,15 @@ class Application():
         self.okButton = tk.Button(self, text='开始抓取', command=self.quit)
         self.okButton.pack()
 
+    def show_info(self, msg):
+        tk.messagebox.showinfo(message=msg)
+
     def begin_spider(self):
         username = self.usernameipt.get()
         password = self.psdipt.get()
         print("{}.{}".format(username, password))
         if username is None or password is None:
-            print("账号或者密码错误")
+            self.show_info("账号或者密码错误")
             return
         self.app = WxAPI.AccountManager()
         self.app.login_by_user(username, password)
