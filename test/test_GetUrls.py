@@ -6,7 +6,7 @@ import re
 import time
 from pprint import pprint
 import json
-import pandas as pd  # 如果需要保存至excel表格的话
+#  import pandas as pd  # 如果需要保存至excel表格的话
 import requests
 from wechatarticles import ArticlesInfo, ArticlesUrls
 from wechatarticles.GetUrls import MobileUrls, PCUrls
@@ -131,6 +131,8 @@ def get_data(url):
 
 
 if __name__ == '__main__':
+    '''
+
     # 方法一：使用PCUrls。已在win10下测试
     # 需要抓取公众号的__biz参数
     biz = ''
@@ -146,10 +148,12 @@ if __name__ == '__main__':
     # 个人微信号登陆后获取的token
     appmsg_token = ''
 
+    '''
+
     # 方法二：使用MobileUrls。已在Ubuntu下测试
+    #------------method_one
 
     # 自动获取参数
-    '''
     from ReadOutfile import Reader
     biz = biz
 
@@ -159,9 +163,9 @@ if __name__ == '__main__':
     reader.contral(outfile)
     appmsg_token, cookie = reader.request(outfile)
     # 通过抓包工具，手动获取appmsg_token, cookie，手动输入参数
-    appmsg_token = appmsg_token
-    cookie = cookie
-    '''
+    #  appmsg_token = appmsg_token
+    #  cookie = cookie
+    #----------method_two
 
     lst = method_two(biz, cookie)
 
@@ -217,10 +221,10 @@ if __name__ == '__main__':
                 print(e)
                 flag = 1
                 break
-            finally:
-                save_xlsx(fj, item_lst)
+            #  finally:
+                #  save_xlsx(fj, item_lst)
 
         if flag == 1:
             break
 
-    save_xlsx(fj, item_lst)
+    #  save_xlsx(fj, item_lst)

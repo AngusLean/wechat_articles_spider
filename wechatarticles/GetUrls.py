@@ -115,8 +115,7 @@ class MobileUrls(object):
         cookie : str
             登录微信后获取的cookie
         Returns
-        -------
-            None
+        ------- None
         """
         self.s = requests.session()
         self.__biz = biz

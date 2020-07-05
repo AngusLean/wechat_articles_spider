@@ -9,6 +9,9 @@ import urllib
 import sys
 import typing
 
+import matplotlib
+matplotlib.use('agg')
+
 
 class Reader:
     """
@@ -134,14 +137,14 @@ def response(flow):
     ----------
     flow: http.HTTPFlow
     请求流, 通过命令调用
-        
+
     Returns
     -------
         None
     """
     url = urllib.parse.unquote(flow.request.url)
     outfile = sys.argv[3]
-    f: typing.IO[bytes] = open(outfile, 'wb')
+    f= typing.IO[bytes] = open(outfile, 'wb')
     w = io.FlowWriter(f)
     if "mp.weixin.qq.com/mp/getappmsgext" in url:
         w.add(flow)

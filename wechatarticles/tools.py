@@ -2,7 +2,10 @@
 
 import time
 import json
+import pdfkit
+import os
 
+from .fileutil import clean_filename,slugify
 
 # 一些tools，如时间戳转换
 def timestamp2date(timestamp):
@@ -61,7 +64,7 @@ def save_mongo(data,
     assert isinstance(host, str)
     assert isinstance(name, str)
     assert isinstance(password, str)
-    assert isinstance(dbname, str)        
+    assert isinstance(dbname, str)
     assert isinstance(collname, str)
 
     if not isinstance(port, int):
@@ -92,7 +95,51 @@ def save_json(fname, data):
 
     if ".json" not in fname:
         raise IOError("fname must be json", fname)
-    with open(fname, "a+") as f:
+    with open(fname, "a+", encoding='utf-8') as f:
         for item in data:
             f.write(json.dumps(item))
             f.write("\n")
+
+def read_json(path):
+    result = []
+    with open(path, 'r') as f:
+        for line in f.readlines():
+            result.append(json.loads(line))
+    return result
+
+def url_2pdf(url, dic="pdfs", title=""):
+    if url is None:
+        return
+    #  dic = clean_filename(dic)
+    config = pdfkit.configuration(
+        #  wkhtmltopdf=r"/home/anguslean/project/wechat_articles_spider/bin/wkhtmltox_0.12.6-1.bionic_amd64.deb"
+    )
+    (path,filename) = os.path.split(dic)
+    (name, ext) = os.path.splitext(filename)
+    name = slugify(name)
+    #  name = clean_filename(name)
+    newPath = os.path.join(path, name)
+    options = {
+        'page-size': 'A4',  # 默认是A4 Letter  etc
+        # 'margin-top':'0.05in',   #顶部间隔
+        # 'margin-right':'2in',   #右侧间隔
+        # 'margin-bottom':'0.05in',   #底部间隔
+        # 'margin-left':'2in',   #左侧间隔
+        'encoding': "UTF-8",  #文本个数
+        'dpi': '96',
+        'image-dpi': '600',
+        'image-quality': '94',
+        'footer-font-size': '80',  #字体大小
+        'no-outline': None,
+        "zoom": 2,  # 网页放大/缩小倍数
+    }
+    print("开始保存[{}]到目录:[{}]".format(title, newPath))
+    if not os.path.exists(newPath):
+        os.makedirs(newPath)
+    pdfkit.from_url(url,
+                '{}/{}.pdf'.format(newPath, title),
+                configuration=config,
+                options=options)
+    print("保存[{}]到pdf文件成功".format(title))
+
+

@@ -5,7 +5,6 @@ import os
 import requests
 from requests.cookies import cookielib
 
-
 class ArticlesUrls(object):
     """
     获取需要爬取的微信公众号的推文链接
@@ -84,6 +83,8 @@ class ArticlesUrls(object):
         -------
             None
         """
+        import matplotlib
+        matplotlib.use('agg')
         import matplotlib.pyplot as plt
         from PIL import Image
         # 存储二维码
