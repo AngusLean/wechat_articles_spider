@@ -83,21 +83,32 @@ class ArticlesUrls(object):
         -------
             None
         """
-        import matplotlib
-        matplotlib.use('agg')
-        import matplotlib.pyplot as plt
-        from PIL import Image
+        #  import matplotlib
+        #  matplotlib.use('agg')
+        #  import matplotlib.pyplot as plt
+        from PIL import Image,ImageTk
+        import os
+        import tempfile
+        #  f = tempfile.TemporaryFile()
+
+        path=os.path.join(tempfile.gettempdir(), "login.jpg")
+        print("临时二维码文件:{}".format(path))
         # 存储二维码
-        with open("login.png", "wb+") as fp:
+        with open(path, "wb+") as fp:
             fp.write(img.content)
         # 显示二维码， 这里使用plt的原因是： 等待用户扫描完之后手动关闭窗口继续运行；否则会直接运行
         try:
-            img = Image.open("login.png")
+            img = Image.open(path)
+            from tkinter import Label
+            #  img_png = PhotoImage(file = path)
+            img=ImageTk.PhotoImage(img)
+            label_img = Label(None, image = img)
+            label_img.pack()
         except Exception:
             raise TypeError(u"账号密码输入错误，请重新输入")
-        plt.figure()
-        plt.imshow(img)
-        plt.show()
+        #  plt.figure()
+        #  plt.imshow(img)
+        #  plt.show()
 
     def __save_cookie(self, username):
         """

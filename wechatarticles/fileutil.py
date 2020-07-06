@@ -32,6 +32,10 @@ def slugify(value):
     import re
     #  value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
     value = str(re.sub('[^\w\s-]', '', value).strip().lower())
+
     value = str(re.sub('[-\s]+', '-', value))
-    return value
+    rstr = r"[\/\\\:\*\?\"\<\>\|]"  # '/ \ : * ? " < > |'
+    new_title = re.sub(rstr, "_", value)  # 替换为下划线
+    return new_title
+    #  return value
 
