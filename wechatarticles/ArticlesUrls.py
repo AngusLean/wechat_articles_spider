@@ -4,7 +4,7 @@ import os
 
 import requests
 from requests.cookies import cookielib
-from .Config import GLOBAL_WND
+#  from .Config import GLOBAL_WND
 
 class ArticlesUrls(object):
     """
@@ -41,13 +41,13 @@ class ArticlesUrls(object):
         }
 
         # 手动输入cookie和token登录
-        if (cookie != None) and (token != None):
+        if (cookie is not None) and (token is not None):
             self.__verify_str(cookie, "cookie")
             self.__verify_str(token, "token")
             self.headers["Cookie"] = cookie
             self.params["token"] = token
         # 扫描二维码登录
-        elif (username != None) and (password != None):
+        elif (username is not None) and (password is not None):
             self.__verify_str(username, "username")
             self.__verify_str(password, "password")
             # 暂不支持cookie缓存

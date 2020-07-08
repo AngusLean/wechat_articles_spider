@@ -1,8 +1,11 @@
 # encoding=utf-8
 import os
+import sys
 import random
 import time
-from pprint import pprint
+from multiprocessing import Process
+import threading
+#  from pprint import pprint
 from .tools import save_json,read_json,url_2pdf
 from .ArticlesUrls import ArticlesUrls
 #  from wechatarticles import url2pdf
@@ -16,22 +19,26 @@ class AccountManager():
     def login_by_cookie(self, cookie, token):
         self.app = ArticlesUrls(cookie=cookie, token=token)
 
-    def getArticleList(self, nickname, num=0):
+    def get_article_list(self, nickname, num=0):
         self.check()
         if num == 0:
             num = self.app.articles_nums(nickname)
+            print("公众号共{}条资讯".format(num))
         jsonPath = self.__get_gzh_path(nickname)
+        print("保存公众号文章元数据信息到:{}".format(jsonPath))
         if not os.path.exists(jsonPath):
             jsonPath = self.__getArticleList(nickname, 0, num)
         else:
             print("{}元数据本来存在，将直接抓取该文件内容".format(jsonPath))
-        self.__readJson(jsonPath)
+        print("开启保存数据到本地")
+        spider_thread = threading.Thread(target=self.__readJson, args=(jsonPath,))
+        spider_thread.start()
 
     def __get_gzh_path(self, nickname):
         return "{}.json".format(nickname)
 
     def __getArticleList(self, nickname, start=0, total=5):
-        sleepTime = 5
+        sleeptime = 5
         path = self.__get_gzh_path(nickname)
         while start <= total:
             print("开始获取{}开始的文章列表".format(start))
@@ -39,7 +46,7 @@ class AccountManager():
             save_json(path, articles)
             start += len(articles)
             print("公众号数据到抓取{}条，随机睡眠{}秒".format(len(articles), sleepTime))
-            time.sleep(sleepTime)
+            time.sleep(sleeptime)
             sleepTime = 5+random.randint(5, 15)
         print("总共抓取到{}篇文章元数据，已经保存文章元数据到本地.请下载".format(total))
         return path
