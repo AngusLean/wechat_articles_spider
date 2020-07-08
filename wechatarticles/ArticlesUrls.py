@@ -4,6 +4,7 @@ import os
 
 import requests
 from requests.cookies import cookielib
+from .Config import GLOBAL_WND
 
 class ArticlesUrls(object):
     """
@@ -92,18 +93,29 @@ class ArticlesUrls(object):
         #  f = tempfile.TemporaryFile()
 
         path=os.path.join(tempfile.gettempdir(), "login.jpg")
+        if img.content is None:
+            raise TypeError(u"登录错误!")
         print("临时二维码文件:{}".format(path))
         # 存储二维码
-        with open(path, "wb+") as fp:
-            fp.write(img.content)
+        #  with open(path, "wb+") as fp:
+            #  fp.write(img.content)
+            #  fp.flush()
         # 显示二维码， 这里使用plt的原因是： 等待用户扫描完之后手动关闭窗口继续运行；否则会直接运行
         try:
+            from tkinter import Label,Tk,Toplevel
+            #self.img = Image.open(path)
+            #  from tkinter import PhotoImage, Label
             img = Image.open(path)
-            from tkinter import Label
+            img = ImageTk.PhotoImage(img)
             #  img_png = PhotoImage(file = path)
-            img=ImageTk.PhotoImage(img)
-            label_img = Label(None, image = img)
+            newWd = Toplevel()
+            newWd.wm_title("微信登录二维码,扫描后手动关闭")
+            label_img = Label(newWd, image = img)
             label_img.pack()
+            #  mg_png = PhotoImage(file = path)
+            #  img=ImageTk.PhotoImage(img)
+            #  label_img = Label(GLOBAL_WND, image = img)
+            #  label_img.grid(column=2, row=3)
         except Exception:
             raise TypeError(u"账号密码输入错误，请重新输入")
         #  plt.figure()
@@ -215,6 +227,10 @@ class ArticlesUrls(object):
         # 账号密码登录，获取二维码，等待用户扫描二维码，需手动关闭二维码窗口
         self.s.post(bizlogin_url, headers=self.headers, data=data)
         img = self.s.get(qrcode_url)
+        if img.content is None or len(img.content) ==0:
+            print("获取登录二维码失败")
+            return
+        print("获取到登录二维码:{}".format(img))
         self.__save_login_qrcode(img)
 
         # 去除之后不用的headers的key
@@ -223,7 +239,7 @@ class ArticlesUrls(object):
         # 获取token
         self.__login_official(username, password)
 
-    def __login_official(self, username, password):
+    def __login_official(self, username, password, retry=0):
         """
         正式登录微信公众号平台，获取token
         Parameters
@@ -261,8 +277,9 @@ class ArticlesUrls(object):
             self.headers.pop("Referer")
         except Exception:
             # 获取token失败，重新扫码登录
-            print("please try again")
-            self.__startlogin_official(username, password)
+            print("获取登录信息失败!")
+            raise Exception("获取登录二维码出错!")
+            #  self.__startlogin_official(username, password)
 
     def official_info(self, nickname, begin=0, count=5):
         """

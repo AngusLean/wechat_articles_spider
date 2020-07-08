@@ -22,15 +22,15 @@ if __name__ == '__main__':
                        #  wechat_cookie=wechat_cookie)
 
     # 输入账号密码，自动登录公众号，手动输入appmsg_token和wechat_cookie
-    #  test = ArticlesAPI(username=username,
-                       #  password=password,
-                       #  appmsg_token=appmsg_token,
-                       #  wechat_cookie=wechat_cookie)
+    test = ArticlesAPI(username=username,
+                       password=password,
+                       appmsg_token=appmsg_token,
+                       wechat_cookie=wechat_cookie)
 
     # 手动输入official_cookie和token, 自动获取appmsg_token和wechat_cookie
-    test = ArticlesAPI(official_cookie=official_cookie,
-                       token=token,
-                       outfile="outfile")
+    #  test = ArticlesAPI(official_cookie=official_cookie,
+                       #  token=token,
+                       #  outfile="outfile")
     print("开始登录")
     # 输入帐号密码，自动登陆公众号, 自动获取appmsg_token和wechat_cookie
     #  test = ArticlesAPI(username=username, password=password, outfile="outfile")

@@ -12,6 +12,7 @@ class AccountManager():
         self.app = None
     def login_by_user(self, username, password):
         self.app = ArticlesUrls(username, password)
+
     def login_by_cookie(self, cookie, token):
         self.app = ArticlesUrls(cookie=cookie, token=token)
 
@@ -19,7 +20,6 @@ class AccountManager():
         self.check()
         if num == 0:
             num = self.app.articles_nums(nickname)
-
         jsonPath = self.__get_gzh_path(nickname)
         if not os.path.exists(jsonPath):
             jsonPath = self.__getArticleList(nickname, 0, num)
