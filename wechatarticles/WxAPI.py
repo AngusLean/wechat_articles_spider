@@ -26,6 +26,7 @@ class AccountManager():
             print("公众号共{}条资讯".format(num))
         jsonPath = self.__get_gzh_path(nickname)
         print("保存公众号文章元数据信息到:{}".format(jsonPath))
+        return
         if not os.path.exists(jsonPath):
             jsonPath = self.__getArticleList(nickname, 0, num)
         else:
