@@ -64,12 +64,12 @@ class AccountManager():
         for last in data:
             title = last['digest']
             url = last['link']
-            aid = last['aid']
+            #  aid = last['aid']
             url_2pdf(url, path, title)
             time.sleep(random.randint(0, 5))
 
 
     def check(self):
-        if self.app is None:
-            raise IOError("没有初始化账号信息")
+        if self.app is None or self.app.islogin == False:
+            raise IOError("没有初始化账号信息或者没有登录成功")
 

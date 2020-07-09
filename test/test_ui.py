@@ -26,9 +26,9 @@ class Application():
         self.window.geometry('1200x700')
         self.init_ui()
         self.app = WxAPI.AccountManager()
+        Config.GlobalConfig.set_global_wd(self.window)
         ##显示出来
         self.window.mainloop()
-        Config.GLOBAL_WND = self.window
 
     def init_ui(self):
         self.usernameipt = tk.Entry(self.window)
@@ -42,8 +42,8 @@ class Application():
 
         self.quitbutton = tk.Button(self.window, text='开始登录', command=self.begin_login)
         self.quitbutton.grid(row=2)
-        self.usernameipt.insert("end", "8260474@qq.com")
-        self.psdipt.insert("end", "8260474@qq.com")
+        self.usernameipt.insert("end", "82604749@qq.com")
+        self.psdipt.insert("end", "ty206683")
         self.spibutton = tk.Button(self.window, text='开始抓取', command=self.begin_spider)
         self.spibutton.grid(row=3)
         #-----------------------

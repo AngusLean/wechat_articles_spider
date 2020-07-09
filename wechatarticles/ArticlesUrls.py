@@ -4,7 +4,7 @@ import os
 
 import requests
 from requests.cookies import cookielib
-#  from .Config import GLOBAL_WND
+from .Config import GlobalConfig
 
 class ArticlesUrls(object):
     """
@@ -39,13 +39,14 @@ class ArticlesUrls(object):
             "lang": "zh_CN",
             "f": "json",
         }
-
+        self.islogin = False
         # 手动输入cookie和token登录
         if (cookie is not None) and (token is not None):
             self.__verify_str(cookie, "cookie")
             self.__verify_str(token, "token")
             self.headers["Cookie"] = cookie
             self.params["token"] = token
+            self.islogin = True
         # 扫描二维码登录
         elif (username is not None) and (password is not None):
             self.__verify_str(username, "username")
@@ -92,17 +93,17 @@ class ArticlesUrls(object):
         import tempfile
         #  f = tempfile.TemporaryFile()
 
-        path=os.path.join(tempfile.gettempdir(), "login.jpg")
+        path=os.path.join(tempfile.gettempdir(), "login.png")
         if img.content is None:
             raise TypeError(u"登录错误!")
         print("临时二维码文件:{}".format(path))
         # 存储二维码
-        #  with open(path, "wb+") as fp:
-            #  fp.write(img.content)
-            #  fp.flush()
+        with open(path, "wb+") as fp:
+            fp.write(img.content)
+            fp.flush()
         # 显示二维码， 这里使用plt的原因是： 等待用户扫描完之后手动关闭窗口继续运行；否则会直接运行
         try:
-            from tkinter import Label,Tk,Toplevel
+            from tkinter import Label,Tk,Toplevel,Button
             #self.img = Image.open(path)
             #  from tkinter import PhotoImage, Label
             img = Image.open(path)
@@ -112,15 +113,20 @@ class ArticlesUrls(object):
             newWd.wm_title("微信登录二维码,扫描后手动关闭")
             label_img = Label(newWd, image = img)
             label_img.pack()
+            quitbutton = Button(newWd, text='扫描', command=self.__has_qrcode_scaned)
+            quitbutton.pack()
             #  mg_png = PhotoImage(file = path)
             #  img=ImageTk.PhotoImage(img)
             #  label_img = Label(GLOBAL_WND, image = img)
             #  label_img.grid(column=2, row=3)
+            GlobalConfig.get_global_wd().wait_window(newWd)
         except Exception:
             raise TypeError(u"账号密码输入错误，请重新输入")
         #  plt.figure()
         #  plt.imshow(img)
         #  plt.show()
+    def __has_qrcode_scaned(self):
+         self.islogin = True
 
     def __save_cookie(self, username):
         """
@@ -252,6 +258,8 @@ class ArticlesUrls(object):
         -------
             None
         """
+        if not self.islogin or self.islogin == False:
+            return
         # 设定headers的referer的请求
         referer = "https://mp.weixin.qq.com/cgi-bin/bizlogin?action=validate&lang=zh_CN&account={}".format(
             username)
@@ -277,7 +285,6 @@ class ArticlesUrls(object):
             self.headers.pop("Referer")
         except Exception:
             # 获取token失败，重新扫码登录
-            print("获取登录信息失败!")
             raise Exception("获取登录二维码出错!")
             #  self.__startlogin_official(username, password)
 
