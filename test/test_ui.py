@@ -35,36 +35,37 @@ class Application():
         self.psdipt = tk.Entry(self.window)
         self.unlabel = tk.Label(self.window, text='个人公众号账号')
         self.psdlabel = tk.Label(self.window, text='个人公众号密码')
-        self.unlabel.grid(row=0)
-        self.usernameipt.grid(row=0, column=1, sticky='W')
-        self.psdlabel.grid(row=1)
-        self.psdipt.grid(row=1, column=1, sticky='W')
+
+        self.index = 0
+        self.unlabel.grid(row=self.index)
+        self.usernameipt.grid(row=self.index, column=1, sticky='W')
+        self.psdlabel.grid(row=++self.index)
+        self.psdipt.grid(row=self.index, column=1, sticky='W')
 
         self.quitbutton = tk.Button(self.window, text='开始登录', command=self.begin_login)
-        self.quitbutton.grid(row=2)
+        self.quitbutton.grid(row=++self.index)
         self.usernameipt.insert("end", "82604749@qq.com")
         self.psdipt.insert("end", "ty206683")
+
+        self.nicknamelabel = tk.Label(self.window, text='抓取得公众号名称')
+        self.nicknamelabel.grid(row=self.index)
+        self.nicknameipt = tk.Entry(self.window)
+        self.nicknameipt.grid(row=++self.index, column=1, sticky='W')
         self.spibutton = tk.Button(self.window, text='开始抓取', command=self.begin_spider)
-        self.spibutton.grid(row=3)
-        #-----------------------
-        #  path=os.path.join(tempfile.gettempdir(), "login.png")
-        #  try:
-            #  self.img = Image.open(path)
-            #  from tkinter import PhotoImage, Label
-            #  self.img=ImageTk.PhotoImage(self.img)
-            #  img_png = PhotoImage(file = path)
-            #  newWd = Toplevel()
-            #  newWd.wm_title("微信登录二维码,扫描后手动关闭")
-            #  label_img = Label(newWd, image = self.img)
-            #  label_img.pack()
-        #  except Exception:
-            #  raise TypeError(u"账号密码输入错误，请重新输入")
-        #-----------------------
+        self.spibutton.grid(row=++self.index)
+
+        self.jsonlabel = tk.Label(self.window, text='手动输入元数据位置')
+        self.jsonlabel.grid(row=self.index)
+        self.jsonipt = tk.Entry(self.window)
+        self.jsonipt.grid(row=++self.index, column=1, sticky='W')
+        self.jsonbtn = tk.Button(self.window, text='开始抓取', command=self.begin_spider)
+        self.jsonbtn.grid(row=++self.index)
+
         #重定向输出
         self.textboxlabel = tk.Label(self.window, text='输出')
-        self.textboxlabel.grid(row=4)
+        self.textboxlabel.grid(row=self.index)
         self.textbox = scrolledtext.ScrolledText(self.window, width=100, height=20)
-        self.textbox.grid(row=4, column=1)
+        self.textbox.grid(row=self.index, column=1)
         sys.stdout = TextRedirector(self.textbox, "stdout")
         sys.stderr = TextRedirector(self.textbox, "stderr")
 
@@ -88,7 +89,10 @@ class Application():
         #  self.app.login_by_cookie(cookie, token)
 
     def begin_spider(self):
-        self.app.get_article_list('融创西南', 3)
+        if self.nicknameipt.get() is None or len(self.nicknameipt.get()) == 0:
+            print("请输入关注得公众号名称")
+            return
+        self.app.get_article_list(self.nicknameipt.get(), 3)
 
 def test():
     from PIL import Image, ImageTk

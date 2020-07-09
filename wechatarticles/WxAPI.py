@@ -26,7 +26,6 @@ class AccountManager():
             print("公众号共{}条资讯".format(num))
         jsonPath = self.__get_gzh_path(nickname)
         print("保存公众号文章元数据信息到:{}".format(jsonPath))
-        return
         if not os.path.exists(jsonPath):
             jsonPath = self.__getArticleList(nickname, 0, num)
         else:
@@ -46,7 +45,7 @@ class AccountManager():
             articles = self.app.articles(nickname, begin="{}".format(start), count="5")
             save_json(path, articles)
             start += len(articles)
-            print("公众号数据到抓取{}条，随机睡眠{}秒".format(len(articles), sleepTime))
+            print("公众号数据到抓取{}条，随机睡眠{}秒".format(len(articles), sleeptime))
             time.sleep(sleeptime)
             sleepTime = 5+random.randint(5, 15)
         print("总共抓取到{}篇文章元数据，已经保存文章元数据到本地.请下载".format(total))

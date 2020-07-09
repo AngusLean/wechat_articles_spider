@@ -113,12 +113,8 @@ class ArticlesUrls(object):
             newWd.wm_title("微信登录二维码,扫描后手动关闭")
             label_img = Label(newWd, image = img)
             label_img.pack()
-            quitbutton = Button(newWd, text='扫描', command=self.__has_qrcode_scaned)
+            quitbutton = Button(newWd, text='扫描后点我然后右上角关闭', command=self.__has_qrcode_scaned)
             quitbutton.pack()
-            #  mg_png = PhotoImage(file = path)
-            #  img=ImageTk.PhotoImage(img)
-            #  label_img = Label(GLOBAL_WND, image = img)
-            #  label_img.grid(column=2, row=3)
             GlobalConfig.get_global_wd().wait_window(newWd)
         except Exception:
             raise TypeError(u"账号密码输入错误，请重新输入")
