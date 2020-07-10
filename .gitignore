@@ -12,6 +12,9 @@
 .gradle/
 dist/
 build/
+pdf/
+jsons/
+wkhtmltox/
 # Geany project file
 .geany
 

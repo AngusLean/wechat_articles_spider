@@ -4,6 +4,7 @@ Url: https://gist.github.com/wassname/1393c4a57cfcbf03641dbc31886123b8
 """
 import unicodedata
 import string
+import random
 
 valid_filename_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
 char_limit = 255
@@ -36,6 +37,14 @@ def slugify(value):
     value = str(re.sub('[-\s]+', '-', value))
     rstr = r"[\/\\\:\*\?\"\<\>\|]"  # '/ \ : * ? " < > |'
     new_title = re.sub(rstr, "_", value)  # 替换为下划线
+    if new_title is None or len(new_title) == 0:
+        random_title = get_random_string(5)
+        print('文件名称:{}非法，将生成随机名称:{}'.format(new_title, random_title))
+        return random_title
     return new_title
     #  return value
+
+def get_random_string(length):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(length))
 

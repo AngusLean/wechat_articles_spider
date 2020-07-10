@@ -6,6 +6,7 @@ import pdfkit
 import os
 
 from .fileutil import clean_filename,slugify
+from .Config import GlobalConfig
 
 # 一些tools，如时间戳转换
 def timestamp2date(timestamp):
@@ -112,13 +113,14 @@ def url_2pdf(url, dic="pdfs", title=""):
         return
     #  dic = clean_filename(dic)
     config = pdfkit.configuration(
+        wkhtmltopdf = GlobalConfig.get_conf('wkpdfpath')
         #  wkhtmltopdf=r"/home/anguslean/project/wechat_articles_spider/bin/wkhtmltox_0.12.6-1.bionic_amd64.deb"
     )
     (path,filename) = os.path.split(dic)
     (name, ext) = os.path.splitext(filename)
     name = slugify(name)
     #  name = clean_filename(name)
-    newPath = os.path.join(path, name)
+    newPath = os.path.abspath(os.path.join(GlobalConfig.get_conf('pdfpath'), name))
     options = {
         'page-size': 'A4',  # 默认是A4 Letter  etc
         # 'margin-top':'0.05in',   #顶部间隔
@@ -131,6 +133,7 @@ def url_2pdf(url, dic="pdfs", title=""):
         'image-quality': '94',
         'footer-font-size': '80',  #字体大小
         'no-outline': None,
+        'quiet': '',
         "zoom": 2,  # 网页放大/缩小倍数
     }
     print("开始保存[{}]到目录:[{}]".format(title, newPath))
