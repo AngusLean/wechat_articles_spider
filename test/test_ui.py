@@ -111,7 +111,6 @@ class Application():
     def begin_login(self):
         username = self.usernameipt.get()
         password = self.psdipt.get()
-        print("账号{},密码{}, --{}".format(username, password, len(username)))
         if len(username)==0 or len(password)==0:
             self.show_info("账号或者密码为空")
             return
