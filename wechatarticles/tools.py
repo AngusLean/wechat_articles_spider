@@ -7,6 +7,7 @@ import os
 
 from .fileutil import clean_filename,slugify
 from .Config import GlobalConfig
+from .WechartHelper import weChartHelper
 
 # 一些tools，如时间戳转换
 def timestamp2date(timestamp):
@@ -139,10 +140,18 @@ def url_2pdf(url, dic="pdfs", title=""):
     print("开始保存[{}]到目录:[{}]".format(title, newPath))
     if not os.path.exists(newPath):
         os.makedirs(newPath)
-    pdfkit.from_url(url,
-                '{}/{}.pdf'.format(newPath, title),
-                configuration=config,
-                options=options)
+    #  pdfkit.from_url(url,
+                #  '{}/{}.pdf'.format(newPath, title),
+                #  configuration=config,
+                #  options=options)
+    html = weChartHelper.refresh_wechart_cotent4_download(url, title, newPath)
+    if html is False:
+        print("获取HTML内容出错")
+        return
+    pdfkit.from_string(html, '{}/{}.pdf'.format(newPath, title),
+                       configuration=config, options=options)
+    #  html = url2pdf(url, title, newPath)
+    #  pdfkit.from_string(html, '{}/{}.pdf'.format(newPath, title),
+                       #  configuration=config, options=options)
+
     print("保存[{}]到pdf文件成功".format(title))
-
-

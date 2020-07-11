@@ -38,6 +38,7 @@ class AccountManager():
 
     def get_from_json(self,jsonPath):
         spider_thread = threading.Thread(target=self.__readJson, args=(jsonPath,))
+        spider_thread.isDaemon = True
         spider_thread.start()
 
     def __get_gzh_path(self, nickname):

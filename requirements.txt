@@ -4,3 +4,6 @@ Pillow>=6.2.0
 pymongo>=3.4.0
 mitmproxy>=4.0.4
 pdfkit>=0.6.1
+wechatsogou>=4.5.4
+Werkzeug==0.15.3
+

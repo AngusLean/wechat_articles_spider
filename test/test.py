@@ -1,24 +1,10 @@
-import tempfile
-import os
-from PIL import Image, ImageTk
-from tkinter import Label,Tk
-import tkinter as tk
-path=os.path.join(tempfile.gettempdir(), "login.png")
-#  path = "C:\\Users\\timoyyu\\Desktop\\test.jpeg"
-#  try:
-window = Tk()
-usernameipt = tk.Entry(window)
-psdipt = tk.Entry(window)
-quitButton = tk.Button(window, text='开始')
-usernameipt.grid(column=1, row=0)
-psdipt.grid(column=2, row=0)
-quitButton.grid(column=1, row=1)
-img = Image.open(path)
-#  from tkinter import PhotoImage, Label
-img=ImageTk.PhotoImage(img)
-#  img_png = PhotoImage(file = path)
-label_img = Label(window, image = img)
-#  label_img.grid(column=3, row=3)
-label_img.grid(column=3, row=3)
 
-window.mainloop()
+from wechatarticles.WechartHelper import weChartHelper
+
+
+if __name__ == "__main__":
+    title = '测试'
+    url = 'http://mp.weixin.qq.com/s?__biz=MzAwMTAwMzcxMg==&mid=2650864370&idx=1&sn=13f1e64ba248693982bf713139101cee&chksm=8114035db6638a4bda88e91c328ace7aa2ea936e8ded616aff8c1ff3ead0c243fc005b3579b0#rd'
+    path = './pdf/'
+    html = weChartHelper.refresh_wechart_cotent4_download(url, title, path)
+    print(html)

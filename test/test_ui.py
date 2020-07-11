@@ -19,6 +19,9 @@ class TextRedirector(object):
         self.widget.insert("end", str, (self.tag,))
         self.widget.configure(state="disabled")
 
+    def flush(self):
+        self.widget.insert("end", "\r\n", (self.tag,))
+
 class Application():
     def __init__(self,):
         self.window = tk.Tk()
