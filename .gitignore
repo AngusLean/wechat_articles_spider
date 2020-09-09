@@ -1,0 +1,48 @@
+
+# Eclipse project files
+.project
+.classpath
+.settings
+*.out
+# IntelliJ IDEA project files and directories
+*.iml
+*.ipr
+*.iws
+.idea/
+.gradle/
+dist/
+build/
+pdf/
+jsons/
+wkhtmltox/
+# Geany project file
+.geany
+
+# KDevelop project file and directory
+.kdev4/
+*.kdev4
+*.egg-info/
+# Build targets
+/target
+**/target
+*.pyc
+# Report directories
+/reports
+*/reports
+**/__pycache__/*
+# Mac-specific directory that no other operating system needs.
+.DS_Store
+
+# JVM crash logs
+hs_err_pid*.log
+
+dependency-reduced-pom.xml
+
+*.o
+.exvim.*/
+*.exe
+*.exvim
+*.class
+=======
+*/build/
+*/pythonvlc/

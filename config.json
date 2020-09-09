@@ -1,0 +1,7 @@
+{
+  "username":"82604749@qq.com",
+  "password":"ty206683",
+  "jsonpath":"./jsons/",
+  "pdfpath":"./pdf/",
+  "wkpdfpath":"D:/project/wechat_articles_spider/wkhtmltox/bin/wkhtmltopdf.exe"
+}
