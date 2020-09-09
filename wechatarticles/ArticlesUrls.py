@@ -7,8 +7,7 @@ from requests.cookies import cookielib
 #  from .Config import GLOBAL_WND
 
 class ArticlesUrls(object):
-    """
-    获取需要爬取的微信公众号的推文链接
+    """ 获取需要爬取的微信公众号的推文链接
     """
     def __init__(self, username=None, password=None, cookie=None, token=None):
         """
